@@ -1,0 +1,45 @@
+.row {
+  background: #000;
+  height: 220px;
+  width: 220px;
+  padding: 5px
+}
+.action_turn_up {
+  padding-left: 24px;
+  padding-right: 25px
+}
+.action_turn_down {
+  padding-left: 16px;
+  padding-right: 16px
+}
+.turn_cube_left, .turn_cube_right {
+  position: absolute;
+  top: 302px
+}
+.turn_cube_left {
+  left: 370px
+}
+.turn_cube_right {
+  left: 810px
+}
+.turn_cells_left, .turn_cells_right {
+  position: absolute;
+  top: 202px
+}
+.turn_cells_left {
+  left: 445px
+}
+.turn_cells_right {
+  left: 750px
+}
+.action_turn_horizontal {
+  padding-top: 28px;
+  padding-bottom: 28px
+}
+.action_row {
+  margin-top: 5px;
+  margin-bottom: 5px
+}
+#restart_game {
+  margin-top: 5px;
+}

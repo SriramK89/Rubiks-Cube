@@ -1,0 +1,125 @@
+<html>
+  <head>
+    <title>
+      Rubik's cube
+    </title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="cube.js"></script>
+    <link rel="stylesheet" type="text/css" href="cube.css">
+  </head>
+  <body>
+    <h1 align="center">
+      Welcome to Rubik's cube!
+    </h1>
+    <br/>
+    <h4 align="center">
+      Developed by K.Sriram
+    </h4>
+    <div align="center">
+      <!-- Rotate the cube to left -->
+      <div class="turn_cube_left">
+        <input type="button" value="Left" id="turn_cube_left"/>
+      </div>
+      <!-- Rotate each row to left -->
+      <div class="turn_cells_left">
+        <div class="action_turn_horizontal">
+          <a href="#" id="turn_row1_left">Left</a>
+        </div>
+        <div class="action_turn_horizontal">
+          <a href="#" id="turn_row2_left">Left</a>
+        </div>
+        <div class="action_turn_horizontal">
+          <a href="#" id="turn_row3_left">Left</a>
+        </div>
+      </div>
+      <!-- Rotate the cube upwards -->
+      <div class="turn_cube_vertical">
+        <input type="button" value="Up" id="turn_cube_up"/>
+      </div>
+      <!-- Rotate each column upwards -->
+      <div class="action_row">
+        <span class="action_turn_up">
+          <a href="#" id="turn_col1_up"> Up </a>
+        </span>
+        <span class="action_turn_up">
+          <a href="#" id="turn_col2_up"> Up </a>
+        </span>
+        <span class="action_turn_up">
+          <a href="#" id="turn_col3_up"> Up </a>
+        </span>
+      </div>
+      <!-- Here goes The Rubik's cube -->
+      <div class="row">
+        <div id="row1">
+          <span>
+            <img src="faces/Red.png" id="row1_col1"/>
+          </span>
+          <span>
+            <img src="faces/Blue.png" id="row1_col2"/>
+          </span>
+          <span>
+            <img src="faces/White.png" id="row1_col3"/>
+          </span>
+        </div>
+        <div id="row2">
+          <span>
+            <img src="faces/Orange.png" id="row2_col1"/>
+          </span>
+          <span>
+            <img src="faces/Green.png" id="row2_col2"/>
+          </span>
+          <span>
+            <img src="faces/Yellow.png" id="row2_col3"/>
+          </span>
+        </div>
+        <div id="row3">
+          <span>
+            <img src="faces/Red.png" id="row3_col1"/>
+          </span>
+          <span>
+            <img src="faces/Red.png" id="row3_col2"/>
+          </span>
+          <span>
+            <img src="faces/Red.png" id="row3_col3"/>
+          </span>
+        </div>
+      </div>
+      <!-- Rotate each column downwards -->
+      <div class="action_row">
+        <span class="action_turn_down">
+          <a href="#" id="turn_col1_up"> Down </a>
+        </span>
+        <span class="action_turn_down">
+          <a href="#" id="turn_col2_up"> Down </a>
+        </span>
+        <span class="action_turn_down">
+          <a href="#" id="turn_col3_up"> Down </a>
+        </span>
+      </div>
+      <!-- Rotate the whole cube downwards -->
+      <div class="turn_cube_vertical">
+        <input type="button" value="Down" id="turn_cube_down"/>
+      </div>
+      <!-- Rotate the whole cube to right -->
+      <div class="turn_cells_right">
+        <div class="action_turn_horizontal">
+          <a href="#" id="turn_row1_left">Right</a>
+        </div>
+        <div class="action_turn_horizontal">
+          <a href="#" id="turn_row2_left">Right</a>
+        </div>
+        <div class="action_turn_horizontal">
+          <a href="#" id="turn_row3_left">Right</a>
+        </div>
+      </div>
+      <!-- Rotate the whole cube to right -->
+      <div class="turn_cube_right">
+        <input type="button" value="Right" id="turn_cube_right"/>
+      </div>
+      <!-- Restart game -->
+      <div>
+        <input type="button" value="Restart" id="restart_game"/>
+      </div>
+    </div>
+  </body>
+</html>
