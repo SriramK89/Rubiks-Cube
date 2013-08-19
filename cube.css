@@ -40,6 +40,9 @@
   margin-top: 5px;
   margin-bottom: 5px
 }
+.action_link {
+  color: #0af;
+}
 #restart_game {
   margin-top: 5px;
 }
