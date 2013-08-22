@@ -1,9 +1,9 @@
 var cube_faces = ["Red", "Blue", "Green", "White", "Orange", "Yellow"];
 var rubiks_cube = null;
 var current_face = 0;
-var rotation_methods = [[0, 1, 2, 3], [0, 4, 2, 5], [1, 4, 3, 5]];
-var rotation_style = 0;
-var flipped = false;
+var cube_rotation = [0, 1, 2, 3, 4, 5] // Format: [Front face, Right face, Back face, Left face, Up face, Down face]
+// var rotation_style = 0;
+// var flipped = false;
 var finished = null;
 
 // Function to create 2D array for Rubik's cube and also to find transpose
@@ -26,13 +26,25 @@ function create_3d_array(rows, cols, depth) {
   return array;
 }
 
-// Function to find transpose of matrix.
+// Function to rotate matrix clockwise
 // Will be used when the left/right/top/bottom row is rotated.
-function find_transpose(input_array) {
+function rotate_clockwise(input_array) {
   var output_array = create_2d_array(3, 3);
   for(var i = 0 ; i < 3 ; i++) {
     for(var j = 0 ; j < 3 ; j++) {
-      output_array[j][i] = input_array[i][j];
+      output_array[j][2 - i] = input_array[i][j];
+    }
+  }
+  return output_array;
+}
+
+// Function to rotate matrix anti-clockwise
+// Will be used when the left/right/top/bottom row is rotated.
+function rotate_anti_clockwise(input_array) {
+  var output_array = create_2d_array(3, 3);
+  for(var i = 0 ; i < 3 ; i++) {
+    for(var j = 0 ; j < 3 ; j++) {
+      output_array[2 - j][i] = input_array[i][j];
     }
   }
   return output_array;
@@ -127,14 +139,18 @@ function display_cube() {
 function load_cube() {
   var faces = 6;
   rubiks_cube = create_3d_array(6, 3, 3);
+  colour_count = [9, 9, 9, 9, 9, 9]
   while(faces > 0) {
     var row_cells = 3;
     while(row_cells > 0) {
       var col_cells = 3
       while(col_cells > 0) {
         cell_colour = Math.floor((Math.random()*6)+1);
-        rubiks_cube[6 - faces][3 - row_cells][3 - col_cells] = cube_faces[cell_colour - 1]
-        col_cells--;
+        if(colour_count[cell_colour - 1] > 0) {
+          rubiks_cube[6 - faces][3 - row_cells][3 - col_cells] = cube_faces[cell_colour - 1]
+          colour_count[cell_colour - 1]--;
+          col_cells--;
+        }
       }
       row_cells--;
     }
@@ -146,35 +162,49 @@ function load_cube() {
 
 // Function to handle cube rotation towards leftside
 function handle_turn_cube_left() {
-  rotation_style = 0;
-  current_face = get_next(rotation_methods[rotation_style]);
-  flipped = !flipped;
-  display_cube();
-}
-
-// Function to handle cube rotation towards downwards
-function handle_turn_cube_up() {
-  if(rotation_style == 0) {
-    rotation_style = flipped ? 2 : 1;
+  for(var i = 0 ; i < 3 ; i++) {
+    cube_rotation[i] = cube_rotation[i + 1];
   }
-  current_face = get_previous(rotation_methods[rotation_style]);
+  cube_rotation[i] = current_face;
+  current_face = cube_rotation[0];
+  rubiks_cube[cube_rotation[4]] = rotate_clockwise(rubiks_cube[cube_rotation[4]]);
+  rubiks_cube[cube_rotation[5]] = rotate_anti_clockwise(rubiks_cube[cube_rotation[5]]);
   display_cube();
 }
 
 // Function to handle cube rotation towards upwards
+function handle_turn_cube_up() {
+  cube_rotation[0] = cube_rotation[5];
+  cube_rotation[5] = cube_rotation[2];
+  cube_rotation[2] = cube_rotation[4];
+  cube_rotation[4] = current_face;
+  current_face = cube_rotation[0];
+  rubiks_cube[cube_rotation[1]] = rotate_clockwise(rubiks_cube[cube_rotation[1]]);
+  rubiks_cube[cube_rotation[3]] = rotate_anti_clockwise(rubiks_cube[cube_rotation[3]]);
+  display_cube();
+}
+
+// Function to handle cube rotation towards downwards
 function handle_turn_cube_down() {
-  if(rotation_style == 0) {
-    rotation_style = flipped ? 2 : 1;
-  }
-  current_face = get_next(rotation_methods[rotation_style]);
+  cube_rotation[0] = cube_rotation[4];
+  cube_rotation[4] = cube_rotation[2];
+  cube_rotation[2] = cube_rotation[5];
+  cube_rotation[5] = current_face;
+  current_face = cube_rotation[0];
+  rubiks_cube[cube_rotation[1]] = rotate_anti_clockwise(rubiks_cube[cube_rotation[1]]);
+  rubiks_cube[cube_rotation[3]] = rotate_clockwise(rubiks_cube[cube_rotation[3]]);
   display_cube();
 }
 
 // Function to handle cube rotation towards rightside
 function handle_turn_cube_right() {
-  rotation_style = 0;
-  current_face = get_previous(rotation_methods[rotation_style]);
-  flipped = !flipped;
+  current_face = cube_rotation[3];
+  for(var i = 3 ; i > 0 ; i--) {
+    cube_rotation[i] = cube_rotation[i - 1];
+  }
+  cube_rotation[i] = current_face;
+  rubiks_cube[cube_rotation[4]] = rotate_anti_clockwise(rubiks_cube[cube_rotation[4]])
+  rubiks_cube[cube_rotation[5]] = rotate_clockwise(rubiks_cube[cube_rotation[5]])
   display_cube();
 }
 
