@@ -129,28 +129,24 @@ function check_game_finished() {
 function display_cube() {
   for(var i = 0 ; i < 3 ; i++) {
     for(var j = 0 ; j < 3 ; j++) {
-      $("#row" + i + "_col" + j).attr("src", "faces/" + rubiks_cube[modulus_value(current_face, 4)][i][j] + ".png");
+      $("#row" + (i + 1) + "_col" + (j + 1)).attr("src", "faces/" + rubiks_cube[current_face][i][j] + ".png");
     }
   }
-  check_game_finished();
+  // check_game_finished();
 }
 
 // Function to initialize/reset the Rubik's cube
 function load_cube() {
   var faces = 6;
   rubiks_cube = create_3d_array(6, 3, 3);
-  colour_count = [9, 9, 9, 9, 9, 9]
   while(faces > 0) {
     var row_cells = 3;
     while(row_cells > 0) {
       var col_cells = 3
       while(col_cells > 0) {
-        cell_colour = Math.floor((Math.random()*6)+1);
-        if(colour_count[cell_colour - 1] > 0) {
-          rubiks_cube[6 - faces][3 - row_cells][3 - col_cells] = cube_faces[cell_colour - 1]
-          colour_count[cell_colour - 1]--;
-          col_cells--;
-        }
+        // cell_colour = Math.floor((Math.random()*6)+1);
+        rubiks_cube[6 - faces][3 - row_cells][3 - col_cells] = cube_faces[6-faces]
+        col_cells--;
       }
       row_cells--;
     }
