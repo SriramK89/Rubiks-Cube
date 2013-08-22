@@ -1,9 +1,6 @@
-var cube_faces = ["Red", "Blue", "Green", "White", "Orange", "Yellow"];
 var rubiks_cube = null;
 var current_face = 0;
 var cube_rotation = [0, 1, 2, 3, 4, 5] // Format: [Front face, Right face, Back face, Left face, Up face, Down face]
-// var rotation_style = 0;
-// var flipped = false;
 var finished = null;
 
 // Function to create 2D array for Rubik's cube and also to find transpose
@@ -50,42 +47,6 @@ function rotate_anti_clockwise(input_array) {
   return output_array;
 }
 
-// Function to compute the absolute value of a negative number
-function modulus_value(number, modulo) {
-  if(number < 0) {
-    number = modulo + number;
-  }
-  return number;
-}
-
-// Function to get the next face from array.
-// The array contains possible rotation faces.
-function get_next(rotation_faces) {
-  var i = 0;
-  while(i < 4) {
-    if(current_face == rotation_faces[i]) {
-      break;
-    }
-    i = (i + 1) % 4;
-  }
-  i = (i + 1) % 4;
-  return rotation_faces[i];
-}
-
-// Function to get the previous face from array.
-// The array contains possible rotation faces.
-function get_previous(rotation_faces) {
-  var i = 0;
-  while(i < 4) {
-    if(current_face == rotation_faces[i]) {
-      break;
-    }
-    i = (i + 1) % 4;
-  }
-  i = (i == 0) ? 3 : (i - 1);
-  return rotation_faces[i];
-}
-
 // Function to check if the Rubik's cube has been solved or not
 function check_game_finished() {
   if(!finished) {
@@ -118,8 +79,7 @@ function check_game_finished() {
     }
   }
   if(finished) {
-    alert("You have completed solving the Rubik's Game");
-    if(confirm("Do you wish to play another one?")) {
+    if(confirm("You have completed solving the Rubik's Game. Do you wish to play another one?")) {
       load_cube();
     }
   }
@@ -137,6 +97,7 @@ function display_cube() {
 
 // Function to initialize/reset the Rubik's cube
 function load_cube() {
+  var cube_faces = ["Red", "Blue", "Green", "White", "Orange", "Yellow"];
   var faces = 6;
   rubiks_cube = create_3d_array(6, 3, 3);
   while(faces > 0) {
@@ -144,8 +105,8 @@ function load_cube() {
     while(row_cells > 0) {
       var col_cells = 3
       while(col_cells > 0) {
-        // cell_colour = Math.floor((Math.random()*6)+1);
-        rubiks_cube[6 - faces][3 - row_cells][3 - col_cells] = cube_faces[6-faces]
+        cell_colour = Math.floor((Math.random()*6)+1);
+        rubiks_cube[6 - faces][3 - row_cells][3 - col_cells] = cube_faces[cell_colour - 1]
         col_cells--;
       }
       row_cells--;
@@ -204,6 +165,60 @@ function handle_turn_cube_right() {
   display_cube();
 }
 
+// Functions to handle particular column's up movements
+function handle_turn_col1_up() {
+  rubiks_cube[cube_rotation[3]] = rotate_clockwise(rubiks_cube[cube_rotation[3]]);
+  faces = [cube_rotation[0], cube_rotation[4], cube_rotation[2], cube_rotation[5]];
+  front_face = new Array(3);
+  for(var i = 0 ; i < 4 ; i++) {
+    if(i == 0) {
+      for(var j = 0 ; j < 3 ; j++) {
+        front_face[j] = rubiks_cube[faces[0]][j][0];
+      }
+    } else {
+      for(var j = 0 ; j < 3 ; j++) {
+        rubiks_cube[faces[i]][j][0] = rubiks_cube[faces[3 - i]][j][0];
+      }
+    }
+  }
+}
+
+function handle_turn_col2_up() {
+}
+
+function handle_turn_col3_up() {
+}
+
+// Functions to handle particular column's down movements
+function handle_turn_col1_down() {
+}
+
+function handle_turn_col2_down() {
+}
+
+function handle_turn_col3_down() {
+}
+
+// Functions to handle particular row's left movements
+function handle_turn_row1_left() {
+}
+
+function handle_turn_row2_left() {
+}
+
+function handle_turn_row3_left() {
+}
+
+// Functions to handle particular row's right movements
+function handle_turn_row1_right() {
+}
+
+function handle_turn_row2_right() {
+}
+
+function handle_turn_row3_right() {
+}
+
 // Function to handle restart of game
 function handle_restart() {
   if(!finished) {
@@ -233,6 +248,46 @@ function initialize_cube() {
   // Handle the cube to be turned rightside
   $("#turn_cube_right").click(function() {
     handle_turn_cube_right();
+  });
+  // Handle the particular column's up movements
+  $("#turn_col1_up").click(function() {
+    handle_turn_col1_up();
+  });
+  $("#turn_col2_up").click(function() {
+    handle_turn_col2_up();
+  });
+  $("#turn_col3_up").click(function() {
+    handle_turn_col3_up();
+  });
+  // Handle the particular column's down movements
+  $("#turn_col1_down").click(function() {
+    handle_turn_col1_down();
+  });
+  $("#turn_col2_down").click(function() {
+    handle_turn_col2_down();
+  });
+  $("#turn_col3_down").click(function() {
+    handle_turn_col3_down();
+  });
+  // Handle the particular row's left movements
+  $("#turn_row1_left").click(function() {
+    handle_turn_row1_left();
+  });
+  $("#turn_row2_left").click(function() {
+    handle_turn_row2_left();
+  });
+  $("#turn_row3_left").click(function() {
+    handle_turn_row3_left();
+  });
+  // Handle the particular row's right movements
+  $("#turn_row1_right").click(function() {
+    handle_turn_row1_right();
+  });
+  $("#turn_row2_right").click(function() {
+    handle_turn_row2_right();
+  });
+  $("#turn_row3_right").click(function() {
+    handle_turn_row3_right();
   });
   // Handle game restart
   $("#restart_game").click(function() {
